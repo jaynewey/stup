@@ -85,7 +85,7 @@ class EntityManager:
     def remove_system(self, system):
         """Removes given System instance from the Entity Manager.
 
-        :param system:  The System instance to remover from the Entity Manager.
+        :param system:  The System instance to remove from the Entity Manager.
         :return: None
         """
         self._systems.remove(system)
