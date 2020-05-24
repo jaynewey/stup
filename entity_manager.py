@@ -1,4 +1,5 @@
 from entity import Entity
+from family import Family
 
 
 class EntityManager:
@@ -7,6 +8,7 @@ class EntityManager:
     def __init__(self):
         self._components = {}
         self._systems = []
+        self._families = {}
 
     @staticmethod
     def create_entity():
@@ -41,6 +43,10 @@ class EntityManager:
             if component_type not in self._components.keys():
                 self._components[component_type] = {}
             self._components[component_type][entity] = component
+            # update all relevant families
+            for family in self._families.keys():
+                if type(component) in family:
+                    self._update_family(family)
 
     def remove_component_from_entity(self, entity, component_type):
         """Removes all Component instances of given Component type from given Entity instance.
@@ -52,17 +58,27 @@ class EntityManager:
         """
         if component_type in self._components.keys():
             del self._components[component_type][entity]
+        # remove entity only from relevant families
+        for family in self._families.keys():
+            if component_type in family:
+                self._families[family].remove(entity)
 
-    def get_entities_for(self, all_of=()):
+    def get_family(self, component_types):
         """Returns entities in the map that have all of the given Component types.
 
-        :param all_of: List of all Component types that the entities must have.
-        :return: A list of Entity instances that have all of the requested component types.
-        :rtype: list
+        :param component_types: A Set of Component types that you want the Family for.
+        :return: The Family of entities that have all of the requested Component types.
+        :rtype: Family
         """
-        if len(all_of) > 0:
-            entities_all_of = set.intersection(*[set(self._components[component_type].keys()) for component_type in all_of])
-            return entities_all_of
+        if component_types in self._families.keys():
+            return self._families[component_types]
+        else:
+            entities_all_of = set.intersection(*[set(self._components[component_type].keys()) for component_type in component_types])
+            self._families[component_types] = Family(entities_all_of)
+            return self._families[component_types]
+
+    def _update_family(self, component_types):
+        self._families[component_types].set_entities(set.intersection(*[set(self._components[component_type].keys()) for component_type in component_types]))
 
     def get_component_map(self, component_type):
         """Returns dictionary of key value pairs where Entity instances are the key and Component instances are the
