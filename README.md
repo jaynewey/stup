@@ -4,18 +4,18 @@ A tiny, simple to use, lightweight Python Entity Component System. Fully functio
 # Usage
 ## Entity
 Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly:
-```
+```python
 entity = Entity()
 ```
 or through the Entity Manager:
-```
+```python
 entity = EntityManager.create_entity()
 ```
 
 ## EntityManager
 The Entity Manager is responsible for handling Entities, their Components and Systems. It is essentially a database of all Entities and Systems and is the link between Entities and their Components.  
 You will usually want to create an instance of an Entity Manager:
-```
+```python
 entity_manager = EntityManager()
 ```
 ...And call its `update()` function every tick. This updates all of the Systems registered with the Entity Manager.
@@ -24,7 +24,7 @@ Entities are not registered in the Entity Manager database at all unless they ha
 ## Component
 Components are simply data holders and nothing more. You should inherit the Component class when writing Components. Components should not contain logic and should only contain data.  
 An example Position Component class in a 2d game could be:
-```
+```python
 class PositionComponent(Component):  
 	def __init__(self):
 		self.x = 0
@@ -33,7 +33,7 @@ class PositionComponent(Component):
 However you might prefer to use private attributes with getter/setter functions.
 ### Adding and Removing Components
 You can add and remove components from entities dynamically through the Entity Manager:
-```
+```python
 entity = Entity()
 entity_manager = EntityManager()
 entity_manager.add_component_to_entity(entity, PositionComponent())
@@ -45,7 +45,7 @@ Systems are for processing specific sets of Entities. You should inherit the `Sy
 Usually in a System you want to only perform logic on Entities that have a specific Component type or set of Component types. For example, a Movement System might only affect Entities that have a Position Component and a Velocity Component, in which case you would use the `EntityManager` function `get_entities_for()`.
 Then, you would want to work with these components, so use the EntityManager's `get_component_map()` to get all Components of a type so you can access a `Component` by using an `Entity` as the key.  
 Here's how it might look:
-```
+```python
 class MovementSystem(System):
 	def __init__(self, entity_manager):
 		# Get all entities with position and velocity components:
@@ -62,11 +62,11 @@ class MovementSystem(System):
 			position.y += velocity.y
 ```
 Then, you would want to add an instance of this system to the Entity Manager:
-```
+```python
 movement_system = MovementSystem()
 entity_manager.add_system(movement_system)
 ```
 Systems can also be removed dynamically:
-```
+```python
 entity_manager.remove_system(movement_system)
 ```
