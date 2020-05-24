@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class System(ABC):
     """Abstract class for processing Entity instances."""
     def __init__(self):
-        self.entities = set()
+        pass
 
     @abstractmethod
     def update(self):
