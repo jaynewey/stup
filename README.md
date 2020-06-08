@@ -94,9 +94,9 @@ class MovementSystem(IteratorSystem):
 		self.movement_component_map = entity_manager.get_component_map(MovementComponent)
 		self.position_component_map = entity_manager.get_component_map(PositionComponent)		
 
-	def process(self):
-        position = self.position_component_map[entity]
-        velocity = self.velocity_component_map[entity]
-        position.x += velocity.x
-        position.y += velocity.y
+	def process(self, entity):
+		position = self.position_component_map[entity]
+		velocity = self.velocity_component_map[entity]
+		position.x += velocity.x
+		position.y += velocity.y
 ```
