@@ -11,18 +11,20 @@ class IteratorSystem(System):
         super().__init__()
         self.family = Family([])
 
-    def update(self):
+    def update(self, deltatime):
         """Automatically iterates through the family of the system.
 
         :return: None
         """
         for entity in self.family:
-            self.process(entity)
+            self.process(deltatime, entity)
 
     @abstractmethod
-    def process(self, entity):
+    def process(self, deltatime, entity):
         """The method that performs logic on an entity and its components.
 
+        :param deltatime: Time between frames. Can be used for framerate independence.
+        :type deltatime: float
         :param entity: The Entity instance that is being processed.
         :type entity: Entity
         :return: None

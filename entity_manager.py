@@ -106,10 +106,12 @@ class EntityManager:
         """
         self._systems.remove(system)
 
-    def update(self):
+    def update(self, deltatime):
         """Updates all systems in the database by calling their update functions. Should be called every tick.
 
+        :param deltatime: Time between frames. Can be used for framerate independence.
+        :type deltatime: float
         :return: None
         """
         for system in self._systems:
-            system.update()
+            system.update(deltatime)

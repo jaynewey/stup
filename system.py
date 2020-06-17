@@ -7,9 +7,11 @@ class System(ABC):
         pass
 
     @abstractmethod
-    def update(self):
+    def update(self, deltatime):
         """The update method that is called every tick.
 
+        :param deltatime: Time between frames. Can be used for framerate independence.
+        :type deltatime: float
         :return: None
         """
         pass

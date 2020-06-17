@@ -21,6 +21,9 @@ entity_manager = EntityManager()
 ...And call its `update()` function every tick. This updates all of the Systems registered with the Entity Manager.
 Entities are not registered in the entity manager database at all unless they have components attached to them.
 
+### deltatime
+`EntityManager.update()` takes a parameter `deltatime` which is a measurement of time between frames. You can utilise this however you like for framerate independence.
+
 ## Component
 Components are simply data holders and nothing more. You should inherit the `Component` class when writing components. Components should not contain logic and should only contain data.  
 An example position component class in a 2d game could be:
@@ -55,12 +58,12 @@ class MovementSystem(System):
 		self.movement_component_map = entity_manager.get_component_map(MovementComponent)
 		self.position_component_map = entity_manager.get_component_map(PositionComponent)
 		
-	def update(self):
+	def update(self, deltatime):
 		for entity in self.family:
 			position = self.position_component_map[entity]
 			velocity = self.velocity_component_map[entity]
-			position.x += velocity.x
-			position.y += velocity.y
+			position.x += velocity.x * deltatime
+			position.y += velocity.y * deltatime
 ```
 Then, you can add an instance of this system to the Entity Manager:
 ```python
@@ -94,9 +97,9 @@ class MovementSystem(IteratorSystem):
 		self.movement_component_map = entity_manager.get_component_map(MovementComponent)
 		self.position_component_map = entity_manager.get_component_map(PositionComponent)		
 
-	def process(self, entity):
+	def process(self, deltatime, entity):
 		position = self.position_component_map[entity]
 		velocity = self.velocity_component_map[entity]
-		position.x += velocity.x
-		position.y += velocity.y
+		position.x += velocity.x * deltatime
+		position.y += velocity.y * deltatime
 ```
