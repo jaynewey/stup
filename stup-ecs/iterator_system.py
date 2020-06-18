@@ -9,7 +9,6 @@ class IteratorSystem(System):
 
     def __init__(self):
         super().__init__()
-        self.family = Family([])
 
     def update(self, deltatime):
         """Automatically iterates through the family of the system.
