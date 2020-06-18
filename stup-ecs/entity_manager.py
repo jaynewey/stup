@@ -1,5 +1,5 @@
-from entity import Entity
-from family import Family
+from .entity import Entity
+from .family import Family
 
 
 class EntityManager:

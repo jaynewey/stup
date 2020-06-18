@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
-from ecs.family import Family
-from ecs.system import System
+from .family import Family
+from .system import System
 
 
 class IteratorSystem(System):
