@@ -80,7 +80,6 @@ class EntityManager:
     def _update_family(self, component_types):
         self._families[component_types].set_entities(set.intersection(*[set(self._components[component_type].keys()) for component_type in component_types]))
 
-    @property
     def get_component_map(self, component_type):
         """Returns dictionary of key value pairs where Entity instances are the key and Component instances are the
         values and the Component instances are of the given Component type.
