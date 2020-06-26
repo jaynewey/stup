@@ -27,8 +27,9 @@ class EntityManager:
         :return: None
         """
         for component_type in self._components.keys():
-            if entity in component_type:
+            if entity in self._components[component_type].keys():
                 del self._components[component_type][entity]
+                self._update_families_with_component_type(component_type)
 
     def add_component_to_entity(self, entity, *components):
         """Applies given Component instances to a given Entity instance.
@@ -44,9 +45,7 @@ class EntityManager:
                 self._components[component_type] = {}
             self._components[component_type][entity] = component
             # update all relevant families
-            for family in self._families.keys():
-                if type(component) in family:
-                    self._update_family(family)
+            self._update_families_with_component_type(component_type)
 
     def remove_component_from_entity(self, entity, component_type):
         """Removes all Component instances of given Component type from given Entity instance.
@@ -59,9 +58,7 @@ class EntityManager:
         if component_type in self._components.keys():
             del self._components[component_type][entity]
         # remove entity only from relevant families
-        for family in self._families.keys():
-            if component_type in family:
-                self._families[family].remove(entity)
+        self._update_families_with_component_type(component_type)
 
     def get_family(self, component_types):
         """Returns entities in the map that have all of the given Component types.
@@ -79,6 +76,11 @@ class EntityManager:
 
     def _update_family(self, component_types):
         self._families[component_types].set_entities(set.intersection(*[set(self._components[component_type].keys()) for component_type in component_types]))
+
+    def _update_families_with_component_type(self, component_type):
+        for family in self._families.keys():
+            if component_type in family:
+                self._update_family(family)
 
     def get_component_map(self, component_type):
         """Returns dictionary of key value pairs where Entity instances are the key and Component instances are the
