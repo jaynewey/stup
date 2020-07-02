@@ -1,5 +1,7 @@
 # stup-ecs
-A tiny, simple to use, lightweight Python Entity Component System. Fully functioning and usable for small practice projects. In development. Not recommended for production code.
+> A tiny, simple to use, lightweight Python Entity Component System. 
+
+Fully functioning and usable for small practice projects. In development. Not recommended for production code.
 
 # Usage
 ## Entity
