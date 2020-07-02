@@ -1,7 +1,7 @@
 # stup-ecs
 ![GitHub](https://img.shields.io/github/license/jaynewey/stup-ecs)
 
-> A tiny, simple to use, lightweight Python Entity Component System. 
+> A tiny, lightweight Entity Component System Framework for Python. 
 
 Fully functioning and usable for small practice projects. In development. Not recommended for production code.
 
