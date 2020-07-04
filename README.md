@@ -25,6 +25,8 @@ entity_manager = EntityManager()
 ...And call its `update()` function every tick. This updates all of the Systems registered with the Entity Manager.
 Entities are not registered in the entity manager database at all unless they have components attached to them.
 
+Because components aren't directly attached to entities (only through the entity manager), components become detached from an entity the moment it is removed from the manager. Thus, removed entities that are then re-added to the manager will no longer have their components unless you handle this yourself.
+
 ### deltatime
 `EntityManager.update()` takes a parameter `deltatime` which is a measurement of time between frames. You can utilise this however you like for framerate independence.
 
