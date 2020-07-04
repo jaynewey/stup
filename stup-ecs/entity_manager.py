@@ -24,12 +24,16 @@ class EntityManager:
 
         :param entity: The Entity instance to be removed from the Entity Manager.
         :type entity: Entity
-        :return: None
+        :return: A set containing the removed entity's components
+        :rtype: set
         """
+        removed_components = set()
         for component_type in self._components.keys():
             if entity in self._components[component_type].keys():
+                removed_components.add(self._components[component_type][entity])
                 del self._components[component_type][entity]
                 self._update_families_with_component_type(component_type)
+        return removed_components
 
     def add_component_to_entity(self, entity, *components):
         """Applies given Component instances to a given Entity instance.
