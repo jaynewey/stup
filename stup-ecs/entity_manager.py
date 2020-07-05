@@ -11,8 +11,7 @@ class EntityManager:
         self._systems = []
         self._families = {}
 
-    @staticmethod
-    def create_entity():
+    def create_entity(self):
         """ Creates a new Entity instance and returns it. Alternative to manually creating an Entity instance.
 
         :return: A new Entity instance. Equivalent to creating an instance manually.
