@@ -10,6 +10,7 @@ class EntityManager:
         self._components = {}  # {type(component): {entity: component}}
         self._systems = []
         self._families = {}
+        self._listeners = []
 
     def create_entity(self):
         """ Creates a new Entity instance, adds it to the manager and returns it.
@@ -129,6 +130,34 @@ class EntityManager:
         :return: None
         """
         self._systems.remove(system)
+
+    def add_listener(self, listener):
+        """Adds a given Listener instance to the Entity Manager.
+
+        :param listener: The Listener instance to add to the Entity Manager.
+        :type listener: Listener
+        :return: None
+        """
+        self._listeners.append(listener)
+
+    def remove_listener(self, listener):
+        """Removes a given Listener instance from the Entity Manager.
+
+        :param listener: The Listener instance to remove from the Entity Manager.
+        :type listener: Listener
+        :return: None
+        """
+        self._listeners.remove(listener)
+
+    def _notify_listeners(self, event):
+        """Notifies the manager's events with the event triggered e.g "entity added".
+
+        :param event: The event triggered
+        :type event: str
+        :return: None
+        """
+        for listener in self._listeners:
+            getattr(listener, event)()
 
     def update(self, deltatime):
         """Updates all systems in the database by calling their update functions. Should be called every tick.
