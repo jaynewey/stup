@@ -6,30 +6,48 @@ class EntityManager:
     """Class responsible for handling Entities, their Components and Systems."""
 
     def __init__(self):
-        self._components = {}
+        self._entities = {}  # {entity: {type(component): component}}
+        self._components = {}  # {type(component): {entity: component}}
         self._systems = []
         self._families = {}
+        self._listeners = []
 
-    @staticmethod
-    def create_entity():
-        """ Creates a new Entity instance and returns it. Alternative to manually creating an Entity instance.
+    def create_entity(self):
+        """ Creates a new Entity instance, adds it to the manager and returns it.
 
         :return: A new Entity instance. Equivalent to creating an instance manually.
         :rtype: Entity
         """
-        return Entity()
+        return self.add_entity(Entity())
+
+    def add_entity(self, entity):
+        """Adds an existing Entity instance to the manager and returns it.
+
+        :param entity: The Entity instance to be added
+        :return: Entity
+        """
+        if entity not in self._entities.keys():
+            self._entities[entity] = {}
+        self._notify_listeners("entity_added", (entity,))
+        return entity
 
     def remove_entity(self, entity):
         """Removes an Entity instance from the Entity Manager.
 
         :param entity: The Entity instance to be removed from the Entity Manager.
         :type entity: Entity
-        :return: None
+        :return: A set containing the removed entity's components
+        :rtype: set
         """
+        removed_components = set()
         for component_type in self._components.keys():
             if entity in self._components[component_type].keys():
+                removed_components.add(self._components[component_type][entity])
                 del self._components[component_type][entity]
                 self._update_families_with_component_type(component_type)
+        del self._entities[entity]
+        self._notify_listeners("entity_removed", (entity, removed_components))
+        return removed_components
 
     def add_component_to_entity(self, entity, *components):
         """Applies given Component instances to a given Entity instance.
@@ -44,6 +62,7 @@ class EntityManager:
             if component_type not in self._components.keys():
                 self._components[component_type] = {}
             self._components[component_type][entity] = component
+            self._entities[entity][component_type] = component
             # update all relevant families
             self._update_families_with_component_type(component_type)
 
@@ -57,6 +76,8 @@ class EntityManager:
         """
         if component_type in self._components.keys():
             del self._components[component_type][entity]
+        if component_type in self._entities[entity].keys():
+            del self._entities[entity][component_type]
         # remove entity only from relevant families
         self._update_families_with_component_type(component_type)
 
@@ -109,6 +130,34 @@ class EntityManager:
         :return: None
         """
         self._systems.remove(system)
+
+    def add_listener(self, listener):
+        """Adds a given Listener instance to the Entity Manager.
+
+        :param listener: The Listener instance to add to the Entity Manager.
+        :type listener: Listener
+        :return: None
+        """
+        self._listeners.append(listener)
+
+    def remove_listener(self, listener):
+        """Removes a given Listener instance from the Entity Manager.
+
+        :param listener: The Listener instance to remove from the Entity Manager.
+        :type listener: Listener
+        :return: None
+        """
+        self._listeners.remove(listener)
+
+    def _notify_listeners(self, event, parameters):
+        """Notifies the manager's events with the event triggered e.g "entity added".
+
+        :param event: The event triggered
+        :type event: str
+        :return: None
+        """
+        for listener in self._listeners:
+            getattr(listener, event)(*parameters)
 
     def update(self, deltatime):
         """Updates all systems in the database by calling their update functions. Should be called every tick.

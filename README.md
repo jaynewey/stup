@@ -7,13 +7,15 @@ Fully functioning and usable for small practice projects. In development. Not re
 
 # Usage
 ## Entity
-Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly:
+Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly and then added to the manager:
 ```python
+entity_manager = EntityManager()
 entity = Entity()
+entity_manager.add_entity(entity)
 ```
-or through the entity manager:
+or both in one step with `EntityManager.create_entity()`:
 ```python
-entity = EntityManager.create_entity()
+entity = entity_manager.create_entity()
 ```
 
 ## EntityManager
@@ -24,6 +26,8 @@ entity_manager = EntityManager()
 ```
 ...And call its `update()` function every tick. This updates all of the Systems registered with the Entity Manager.
 Entities are not registered in the entity manager database at all unless they have components attached to them.
+
+Because components aren't directly attached to entities (only through the entity manager), components become detached from an entity the moment it is removed from the manager. Thus, removed entities that are then re-added to the manager will no longer have their components unless you handle this yourself.
 
 ### deltatime
 `EntityManager.update()` takes a parameter `deltatime` which is a measurement of time between frames. You can utilise this however you like for framerate independence.
@@ -106,4 +110,36 @@ class MovementSystem(IteratorSystem):
 		velocity = self.velocity_component_map[entity]
 		position.x += velocity.x * deltatime
 		position.y += velocity.y * deltatime
+```
+
+## EntityListener
+
+Entity listeners can be registered with an `EntityManager` instance. Listeners get notified whenever an entity is added or removed from the manager. This is useful if you want to do something upon one of those events.
+
+To write your own listener, inherit the `Listener` class. You must override the abstract methods `entity_added` and `entity_removed` but any that aren't required can just `pass`.
+
+For the purpose of example the following class will print the entity object when it is removed from the manager.
+
+```python
+class PrintListener(Listener):
+    def entity_added(self, entity):
+        pass
+
+    def entity_removed(self, entity, components):
+        print(entity)
+```
+
+`entity_added` takes the added entity as a parameter, whereas `entity_removed` additionally takes the components that were attached to the entity in the system so that you can utilise them in your listener.
+
+You must register a listener with an `ÈntityManager` instance for it to function. You can do so like this:
+
+```python
+entity_manager = EntityManager()
+print_listener = PrintListener()
+entity_manager.add_listener(print_listener)
+```
+
+You can removed listeners from the manager, too:
+```python
+entity_manager.remove_listener(print_listener)
 ```
