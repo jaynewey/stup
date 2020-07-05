@@ -6,6 +6,7 @@ class EntityManager:
     """Class responsible for handling Entities, their Components and Systems."""
 
     def __init__(self):
+        self._entities = {}  # {entity: {component_type: component}}
         self._components = {}  # {type(component): {entity: component}}
         self._systems = []
         self._families = {}
@@ -17,7 +18,9 @@ class EntityManager:
         :return: A new Entity instance. Equivalent to creating an instance manually.
         :rtype: Entity
         """
-        return Entity()
+        entity = Entity()
+        self._entities[entity] = {}
+        return entity
 
     def remove_entity(self, entity):
         """Removes an Entity instance from the Entity Manager.
@@ -33,6 +36,7 @@ class EntityManager:
                 removed_components.add(self._components[component_type][entity])
                 del self._components[component_type][entity]
                 self._update_families_with_component_type(component_type)
+        del self._entities[entity]
         return removed_components
 
     def add_component_to_entity(self, entity, *components):
@@ -48,6 +52,7 @@ class EntityManager:
             if component_type not in self._components.keys():
                 self._components[component_type] = {}
             self._components[component_type][entity] = component
+            self._entities[entity][component_type] = component
             # update all relevant families
             self._update_families_with_component_type(component_type)
 
@@ -61,6 +66,8 @@ class EntityManager:
         """
         if component_type in self._components.keys():
             del self._components[component_type][entity]
+        if component_type in self._entities[entity].keys():
+            del self._entities[entity][component_type]
         # remove entity only from relevant families
         self._update_families_with_component_type(component_type)
 
