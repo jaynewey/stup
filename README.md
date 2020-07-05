@@ -7,13 +7,15 @@ Fully functioning and usable for small practice projects. In development. Not re
 
 # Usage
 ## Entity
-Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly:
+Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly and then added to the manager:
 ```python
+entity_manager = EntityManager()
 entity = Entity()
+entity_manager.add_entity(entity)
 ```
-or through the entity manager:
+or both in one step with `EntityManager.create_entity()`:
 ```python
-entity = EntityManager.create_entity()
+entity = entity_manager.create_entity()
 ```
 
 ## EntityManager

@@ -12,13 +12,23 @@ class EntityManager:
         self._families = {}
 
     def create_entity(self):
-        """ Creates a new Entity instance and returns it. Alternative to manually creating an Entity instance.
+        """ Creates a new Entity instance, adds it to the manager and returns it.
 
         :return: A new Entity instance. Equivalent to creating an instance manually.
         :rtype: Entity
         """
         entity = Entity()
         self._entities[entity] = {}
+        return entity
+
+    def add_entity(self, entity):
+        """Adds an existing Entity instance to the manager and returns it.
+
+        :param entity: The Entity instance to be added
+        :return: Entity
+        """
+        if entity not in self._entities.keys():
+            self._entities[entity] = {}
         return entity
 
     def remove_entity(self, entity):
