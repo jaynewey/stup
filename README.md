@@ -111,3 +111,22 @@ class MovementSystem(IteratorSystem):
 		position.x += velocity.x * deltatime
 		position.y += velocity.y * deltatime
 ```
+
+## EntityListener
+
+Entity listeners can be registered with an `EntityManager` instance. Listeners get notified whenever an entity is added or removed from the manager. This is useful if you want to do something upon one of those events.
+
+To write your own listener, inherit the `Listener` class. You must override the abstract methods `entity_added` and `entity_removed` but any that aren't required can just `pass`.
+
+For the purpose of example the following class will print the entity object when it is removed from the manager.
+
+```python
+class PrintListener(Listener):
+    def entity_added(self, entity):
+        pass
+
+    def entity_removed(self, entity, components):
+        print(entity)
+```
+
+`entity_added` takes the added entity as a parameter, whereas `entity_removed` additionally takes the components that were attached to the entity in the system so that you can utilise them in your listener.
