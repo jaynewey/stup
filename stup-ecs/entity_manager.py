@@ -28,7 +28,7 @@ class EntityManager:
         """
         if entity not in self._entities.keys():
             self._entities[entity] = {}
-        self._notify_listeners("entity_added")
+        self._notify_listeners("entity_added", (entity,))
         return entity
 
     def remove_entity(self, entity):
@@ -46,7 +46,7 @@ class EntityManager:
                 del self._components[component_type][entity]
                 self._update_families_with_component_type(component_type)
         del self._entities[entity]
-        self._notify_listeners("entity_removed")
+        self._notify_listeners("entity_removed", (entity, removed_components))
         return removed_components
 
     def add_component_to_entity(self, entity, *components):
@@ -149,7 +149,7 @@ class EntityManager:
         """
         self._listeners.remove(listener)
 
-    def _notify_listeners(self, event):
+    def _notify_listeners(self, event, parameters):
         """Notifies the manager's events with the event triggered e.g "entity added".
 
         :param event: The event triggered
@@ -157,7 +157,7 @@ class EntityManager:
         :return: None
         """
         for listener in self._listeners:
-            getattr(listener, event)()
+            getattr(listener, event)(*parameters)
 
     def update(self, deltatime):
         """Updates all systems in the database by calling their update functions. Should be called every tick.
