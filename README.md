@@ -130,3 +130,16 @@ class PrintListener(Listener):
 ```
 
 `entity_added` takes the added entity as a parameter, whereas `entity_removed` additionally takes the components that were attached to the entity in the system so that you can utilise them in your listener.
+
+You must register a listener with an `ÈntityManager` instance for it to function. You can do so like this:
+
+```python
+entity_manager = EntityManager()
+print_listener = PrintListener()
+entity_manager.add_listener(print_listener)
+```
+
+You can removed listeners from the manager, too:
+```python
+entity_manager.remove_listener(print_listener)
+```
