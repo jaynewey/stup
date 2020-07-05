@@ -19,7 +19,7 @@ class EntityListener(ABC):
 
         :param entity: The entity that was removed
         :type entity: Entity
-        :param components: The components that were attached to the entity in the system
-        :type components: set
+        :param components: The components that were attached to the entity in the system. {type(component): component}
+        :type components: dict
         """
         pass
