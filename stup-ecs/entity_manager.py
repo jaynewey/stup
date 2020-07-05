@@ -6,7 +6,7 @@ class EntityManager:
     """Class responsible for handling Entities, their Components and Systems."""
 
     def __init__(self):
-        self._entities = {}  # {entity: {component_type: component}}
+        self._entities = {}  # {entity: {type(component): component}}
         self._components = {}  # {type(component): {entity: component}}
         self._systems = []
         self._families = {}
