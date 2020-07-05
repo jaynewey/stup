@@ -18,9 +18,7 @@ class EntityManager:
         :return: A new Entity instance. Equivalent to creating an instance manually.
         :rtype: Entity
         """
-        entity = Entity()
-        self._entities[entity] = {}
-        return entity
+        return self.add_entity(Entity())
 
     def add_entity(self, entity):
         """Adds an existing Entity instance to the manager and returns it.
@@ -30,6 +28,7 @@ class EntityManager:
         """
         if entity not in self._entities.keys():
             self._entities[entity] = {}
+        self._notify_listeners("entity_added")
         return entity
 
     def remove_entity(self, entity):
@@ -47,6 +46,7 @@ class EntityManager:
                 del self._components[component_type][entity]
                 self._update_families_with_component_type(component_type)
         del self._entities[entity]
+        self._notify_listeners("entity_removed")
         return removed_components
 
     def add_component_to_entity(self, entity, *components):
