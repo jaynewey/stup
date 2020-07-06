@@ -5,6 +5,17 @@
 
 Fully functioning and usable for small practice projects. In development. Not recommended for production code.
 
+# Contents
+
+* [Entity](#entity)
+* [EntityManager](#entitymanager)
+    + [deltatime](#deltatime)
+* [Component](#component)
+    + [Adding and Removing Components](#adding-and-removing-components)
+* [System](#system)
+    + [IteratorSystem](#iteratorsystem)
+* [EntityListener](#entitylistener)
+
 # Usage
 ## Entity
 Entities are are Universally Unique Identifiers (UUIDs) and nothing else. Entities can be instantiated directly and then added to the manager:
