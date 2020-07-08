@@ -105,6 +105,16 @@ class EntityManager:
             if component_type in family:
                 self._update_family(family)
 
+    def get_entity_components(self, entity):
+        """Gets a set of all components attached to the given entity.
+
+        :param entity: The entity instance to get the components of
+        :type entity: Entity
+        :return: The set of all components attached to the given entity
+        :rtype: set
+        """
+        return {component for component in self._entities[entity].values()}
+
     def get_component_map(self, component_type):
         """Returns dictionary of key value pairs where Entity instances are the key and Component instances are the
         values and the Component instances are of the given Component type.
