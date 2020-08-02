@@ -1,5 +1,5 @@
-# stup-ecs
-![GitHub](https://img.shields.io/github/license/jaynewey/stup-ecs)
+# stup
+![GitHub](https://img.shields.io/github/license/jaynewey/stup)
 
 > A tiny, lightweight Entity Component System Framework for Python. 
 
@@ -96,7 +96,7 @@ entity_manager.remove_system(movement_system)
 
 ### IteratorSystem
 
-Most systems will involve iterating over a `family`. To avoid redundant code, stup-ecs provides a handy utility class which will do this for you, called `IteratorSystem`.
+Most systems will involve iterating over a `family`. To avoid redundant code, stup provides a handy utility class which will do this for you, called `IteratorSystem`.
 
 In the constructor of your `System`, get the `Family` of entities as you normally would:
 
