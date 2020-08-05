@@ -49,6 +49,16 @@ class EntityManager:
         self._notify_listeners("entity_removed", (entity, removed_components))
         return removed_components
 
+    def entity_exists(self, entity):
+        """Returns True if the given Entity instance is in the entity manager,
+
+        :param entity: The Entity instance to be checked.
+        :type entity: Entity
+        :return: A boolean representing whether the Entity was found or not.
+        :rtype: bool
+        """
+        return entity in self._entities.keys()
+
     def add_component_to_entity(self, entity, *components):
         """Applies given Component instances to a given Entity instance.
 
