@@ -107,7 +107,8 @@ class EntityManager:
             self._families[component_types] = Family(entities_all_of)
             return self._families[component_types]
         else:
-            return Family(set())
+            self._families[component_types] = Family(set())
+            return self._families[component_types]
 
     def _update_family(self, component_types):
         self._families[component_types].set_entities(set.intersection(*[set(self._components[component_type].keys())
