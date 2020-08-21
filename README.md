@@ -1,5 +1,6 @@
 # stup
 ![GitHub](https://img.shields.io/github/license/jaynewey/stup)
+![Travis (.org)](https://img.shields.io/travis/jaynewey/stup)
 
 > A tiny, lightweight Entity Component System Framework for Python. 
 
