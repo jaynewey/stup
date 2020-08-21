@@ -98,6 +98,7 @@ class EntityManager:
         :return: The Family of entities that have all of the requested Component types.
         :rtype: Family
         """
+        component_types = frozenset(component_types)
         if component_types in self._families.keys():
             return self._families[component_types]
         else:
