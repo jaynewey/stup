@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
+from .family import Family
 
 
 class System(ABC):
     """Abstract class for processing Entity instances."""
     def __init__(self):
-        self.family = Family([])
+        self.family = Family(set())
 
     @abstractmethod
     def update(self, deltatime):

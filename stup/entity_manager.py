@@ -91,19 +91,23 @@ class EntityManager:
         # remove entity only from relevant families
         self._update_families_with_component_type(component_type)
 
-    def get_family(self, component_types):
+    def get_family(self, *component_types):
         """Returns entities in the map that have all of the given Component types.
 
         :param component_types: A Set of Component types that you want the Family for.
         :return: The Family of entities that have all of the requested Component types.
         :rtype: Family
         """
+        component_types = frozenset(component_types)
         if component_types in self._families.keys():
             return self._families[component_types]
-        else:
+        elif all([component_type in self._components.keys() for component_type in component_types ]):
             entities_all_of = set.intersection(*[set(self._components[component_type].keys())
                                                  for component_type in component_types])
             self._families[component_types] = Family(entities_all_of)
+            return self._families[component_types]
+        else:
+            self._families[component_types] = Family(set())
             return self._families[component_types]
 
     def _update_family(self, component_types):
