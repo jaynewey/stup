@@ -101,11 +101,13 @@ class EntityManager:
         component_types = frozenset(component_types)
         if component_types in self._families.keys():
             return self._families[component_types]
-        else:
+        elif all([component_type in self._components.keys() for component_type in component_types ]):
             entities_all_of = set.intersection(*[set(self._components[component_type].keys())
                                                  for component_type in component_types])
             self._families[component_types] = Family(entities_all_of)
             return self._families[component_types]
+        else:
+            return Family(set())
 
     def _update_family(self, component_types):
         self._families[component_types].set_entities(set.intersection(*[set(self._components[component_type].keys())
