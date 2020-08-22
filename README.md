@@ -73,7 +73,7 @@ class MovementSystem(System):
 	def __init__(self, entity_manager):
 		super().__init__()
 		# Get the Family of entities with position and velocity components:
-		self.family = entity_manager.get_family((PositionComponent, VelocityComponent))
+		self.family = entity_manager.get_family(PositionComponent, VelocityComponent)
 		# Get the component maps so we can access the components using the entity as a key:
 		self.movement_component_map = entity_manager.get_component_map(MovementComponent)
 		self.position_component_map = entity_manager.get_component_map(PositionComponent)
@@ -102,7 +102,7 @@ Most systems will involve iterating over a `family`. To avoid redundant code, st
 In the constructor of your `System`, get the `Family` of entities as you normally would:
 
 ```python
-self.family = entity_manager.get_family((PositionComponent, VelocityComponent))
+self.family = entity_manager.get_family(PositionComponent, VelocityComponent)
 ```
 
 Rather than overriding the `Update()` function, override `Iterator System`'s `Process()`function to do your logic and it will be applied to all entities in the family. The `MovementSystem` from before would look like this:
@@ -112,7 +112,7 @@ class MovementSystem(IteratorSystem):
 	def __init__(self, entity_manager):
 		super().__init__()
 		# Get the Family of entities with position and velocity components:
-		self.family = entity_manager.get_family((PositionComponent, VelocityComponent))
+		self.family = entity_manager.get_family(PositionComponent, VelocityComponent)
 		# Get the component maps so we can access the components using the entity as a key:
 		self.movement_component_map = entity_manager.get_component_map(MovementComponent)
 		self.position_component_map = entity_manager.get_component_map(PositionComponent)		
