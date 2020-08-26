@@ -4,7 +4,10 @@ from .family import Family
 
 class System(ABC):
     """Abstract class for processing Entity instances."""
-    def __init__(self):
+    priority = float("inf")
+
+    def __init__(self, priority=float("inf")):
+        self.priority = priority
         self.family = Family(set())
 
     @abstractmethod
