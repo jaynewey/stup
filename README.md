@@ -14,6 +14,7 @@ Fully functioning and usable for small practice projects. In development. Not re
 * [Component](#component)
     + [Adding and Removing Components](#adding-and-removing-components)
 * [System](#system)
+    + [System Priority](#system-priority)
     + [IteratorSystem](#iteratorsystem)
 * [EntityListener](#entitylistener)
 
@@ -94,6 +95,25 @@ Systems can also be removed dynamically:
 ```python
 entity_manager.remove_system(movement_system)
 ```
+
+### System Priority
+
+You may want to run systems in a given order, or prioritise some systems over others.
+
+You can enable this behaviour when overriding the `System` constructor. Systems have a priority of 0 by default. This means that when not specified, systems have the lowest possible priority, and are executed in the order they're added to the manager.
+
+Interact with this how you choose. But, for example, if you want to mimic the default constructor, and take a dynamic priority parameter:
+
+```python
+class MovementSystem(System):
+	def __init__(self, entity_manager, priority=0):
+        super().__init__(priority=priority)
+        # ...
+``` 
+
+You can then instantiate your system with a given priority, `movement_system = MovementSystem(priority=1)`
+
+Systems with a higher priority will be executed first by the `EntityManager`.
 
 ### IteratorSystem
 

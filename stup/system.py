@@ -4,8 +4,15 @@ from .family import Family
 
 class System(ABC):
     """Abstract class for processing Entity instances."""
-    def __init__(self):
+    _priority = float("inf")
+
+    def __init__(self, priority=0):
+        self._priority = priority
         self.family = Family(set())
+
+    @property
+    def priority(self):
+        return self._priority
 
     @abstractmethod
     def update(self, deltatime):
