@@ -38,7 +38,7 @@ def test_system_priority():
     system_3 = UpdateSystem(1)
     entity_manager.add_system(system_3)
     assert entity_manager._systems == [system_3, system_1, system_2]
-    system_4 = UpdateSystem(0)
+    system_4 = UpdateSystem(2)
     entity_manager.add_system(system_4)
     entity_manager.remove_system(system_1)
     assert entity_manager._systems == [system_4, system_3, system_2]
