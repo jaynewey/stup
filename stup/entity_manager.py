@@ -146,7 +146,7 @@ class EntityManager:
         :return: None
         """
         self._systems.extend(system)
-        self._systems.sort(key=lambda s: s.priority)
+        self._systems.sort(key=lambda s: s.priority, reverse=True)
 
     def remove_system(self, system):
         """Removes given System instance from the Entity Manager.
