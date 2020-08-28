@@ -14,6 +14,7 @@ Fully functioning and usable for small practice projects. In development. Not re
 * [Component](#component)
     + [Adding and Removing Components](#adding-and-removing-components)
 * [System](#system)
+    + [System Priority](#system-priority)
     + [IteratorSystem](#iteratorsystem)
 * [EntityListener](#entitylistener)
 
